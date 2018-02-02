@@ -20,7 +20,7 @@
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
-  import {getRecommend} from 'api/recommend'
+  import {getRecommendJsonp, getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
 
   export default {
@@ -31,13 +31,21 @@
     },
     created() {
       this._getRecommend()
+      this._getDiscList()
     },
     methods: {
       _getRecommend() {
-        getRecommend().then((res) => {
+        getRecommendJsonp().then((res) => {
           if (res.code === ERR_OK) {
             this.recommends = res.data.slider
             // 测试 git key 使用
+          }
+        })
+      },
+      _getDiscList() {
+        getDiscList().then((res) => {
+          console.log(res)
+          if (res.code === ERR_OK) {
           }
         })
       }
