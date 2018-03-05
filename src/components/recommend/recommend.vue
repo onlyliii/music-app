@@ -6,7 +6,7 @@
           <Slider>
             <div v-for="item in recommends" :key="item.picUrl">
               <a :href="item.linkUrl">
-                <img @load="loadImage" :src="item.picUrl" alt="图片">
+                <img class="needsclick" @load="loadImage" :src="item.picUrl" alt="图片">
               </a>
             </div>
           </Slider>
@@ -16,7 +16,7 @@
           <ul>
             <li v-for="item in discList" :key="item.dissid" class="item">
               <div class="icon">
-                <img :src="item.imgurl" width="60" height="60" alt="">
+                <img v-lazy="item.imgurl" width="60" height="60" alt="">
               </div>
               <div class="text">
                 <h2 class="name" v-html="item.creator.name"></h2>
@@ -26,11 +26,15 @@
           </ul>
         </div>
       </div>
+      <div class="loading-container" v-show="!discList.length">
+        <Loading></Loading>
+      </div>
     </Scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import Loading from 'base/loading/loading'
   import Slider from 'base/slider/slider'
   import Scroll from 'base/scroll/scroll'
   import {getRecommendJsonp, getDiscList} from 'api/recommend'
@@ -73,7 +77,8 @@
     },
     components: {
       Slider,
-      Scroll
+      Scroll,
+      Loading
     }
   }
 </script>
