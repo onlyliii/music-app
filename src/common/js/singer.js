@@ -1,3 +1,4 @@
+// 采用类方法对生成对象
 export default class Singer {
   constructor({id, name}) {
     this.id = id

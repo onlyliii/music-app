@@ -9,7 +9,7 @@
 
   export default {
     props: {
-      probeTyle: {
+      probeType: {
         type: Number,
         default: 1
       },
@@ -20,6 +20,10 @@
       data: {
         type: Array,
         default: null
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -33,9 +37,16 @@
           return
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
-          probeType: this.probeTyle,
+          probeType: this.probeType,
           click: this.click
         })
+        // 监听滚动位置并派发事件
+        if (this.listenScroll) {
+          let self = this
+          this.scroll.on('scroll', (pos) => {
+            self.$emit('scroll', pos)
+          })
+        }
       },
       enable() {
         this.scroll && this.scroll.enable()
@@ -45,6 +56,12 @@
       },
       refresh() {
         this.scroll && this.scroll.refresh()
+      },
+      scrollTo() {
+        this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
+      },
+      scrollToElement() {
+        this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
     watch: {
